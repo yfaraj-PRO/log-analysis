@@ -6,6 +6,9 @@ dist/
 wheels/
 *.egg-info
 app.log
+data/
+ip_countries.txt
+
 
 # Virtual environments
 .venv
