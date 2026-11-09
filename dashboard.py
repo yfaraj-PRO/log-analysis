@@ -1,7 +1,11 @@
+import logging
 import matplotlib.pyplot as plt
 
 
-def show_dashboard(
+logger = logging.getLogger(__name__)
+
+
+def draw_dashboard(
     failures_by_country,
     success_by_user,
     invalid_user_failures
@@ -42,7 +46,7 @@ def show_dashboard(
     )
 
     fig.suptitle(
-        "Analyse des tentatives SSH par mot de passe",
+        "Analyse des tentatives d’authentification SSH",
         fontsize=18,
         fontweight="bold",
         y=0.97
@@ -57,7 +61,7 @@ def show_dashboard(
         color="#475569"
     )
 
-    # 1. Échecs par pays : les quatre premières rangées.
+    # 1. Échecs par pays.
     for index in range(number_of_charts):
         start = index * countries_per_chart
         end = start + countries_per_chart
@@ -134,9 +138,9 @@ def show_dashboard(
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_visible(False)
 
-    # La rangée 4 reste vide pour espacer les deux parties.
+    # La rangée 4 reste vide pour séparer les graphiques.
 
-    # 2. Réussites par utilisateur : dernière rangée, à gauche.
+    # 2. Réussites par utilisateur.
     ax_users = fig.add_subplot(
         grid[5, :number_of_charts]
     )
@@ -201,7 +205,7 @@ def show_dashboard(
     for spine in ax_users.spines.values():
         spine.set_visible(False)
 
-    # 3. Utilisateurs invalides : dernière rangée, à droite.
+    # 3. Échecs avec utilisateur invalide.
     ax_invalid = fig.add_subplot(
         grid[5, number_of_charts:]
     )
@@ -248,3 +252,25 @@ def show_dashboard(
     )
 
     plt.show()
+
+
+def show_dashboard(
+    failures_by_country,
+    success_by_user,
+    invalid_user_failures
+):
+    try:
+        draw_dashboard(
+            failures_by_country,
+            success_by_user,
+            invalid_user_failures
+        )
+
+    except Exception as e:
+        logger.error(
+            f"Erreur pendant l'affichage du dashboard : {e}"
+        )
+        print(
+            "Impossible d'afficher le dashboard. "
+            "Consultez app.log pour connaître l'erreur."
+        )
