@@ -1,6 +1,7 @@
 from ingestion import read
 from processing import extract_transform
 from processing import geolocation
+from dashboard import show_dashboard
 import logging
 
 
@@ -82,3 +83,8 @@ if __name__ == "__main__" :
         print("Total des échecs :", total_failures)
         print("Total des réussites :", total_successes)
         print("Total comptabilisé :", total_failures + total_successes)
+        show_dashboard(
+            failures_by_country,
+            success_by_user,
+            invalid_user_failures
+        )
